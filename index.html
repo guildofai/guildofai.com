@@ -173,11 +173,7 @@
         <div class="container">
             <h2 class="section-title">Get Started</h2>
             <p class="section-sub">Tell us what's eating your team's time. We'll tell you what an agent can do about it.</p>
-            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-                <input type="hidden" name="access_key" value="59969e3d-1ba5-4f3f-af6e-54d6a5e64788">
-                <input type="hidden" name="redirect" value="https://www.guildofai.com/thank-you.html">
-                <input type="hidden" name="subject" value="New contact from Guild of AI website">
-                <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+            <form class="contact-form" id="contactForm">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -196,8 +192,47 @@
                     <label for="message">What do you need?</label>
                     <textarea id="message" name="message" rows="4" placeholder="Tell us about the manual work that's slowing your team down..."></textarea>
                 </div>
-                <button type="submit" class="btn btn-lg">Send Message</button>
+                <button type="submit" class="btn btn-lg" id="submitBtn">Send Message</button>
+                <p id="formStatus" style="margin-top:1rem;display:none;"></p>
             </form>
+            <script>
+            document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btn = document.getElementById('submitBtn');
+                const status = document.getElementById('formStatus');
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+                status.style.display = 'none';
+                try {
+                    const res = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            access_key: '59969e3d-1ba5-4f3f-af6e-54d6a5e64788',
+                            subject: 'New contact from Guild of AI website',
+                            name: this.name.value,
+                            email: this.email.value,
+                            company: this.company.value,
+                            message: this.message.value
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        window.location.href = '/thank-you.html';
+                    } else {
+                        status.textContent = 'Something went wrong. Please email us at joseph@guildofai.com';
+                        status.style.display = 'block';
+                        status.style.color = '#ff4444';
+                    }
+                } catch (err) {
+                    status.textContent = 'Network error. Please email us at joseph@guildofai.com';
+                    status.style.display = 'block';
+                    status.style.color = '#ff4444';
+                }
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            });
+            </script>
         </div>
     </section>
 
