@@ -173,9 +173,11 @@
         <div class="container">
             <h2 class="section-title">Get Started</h2>
             <p class="section-sub">Tell us what's eating your team's time. We'll tell you what an agent can do about it.</p>
-            <form class="contact-form" action="https://formspree.io/f/joseph@guildofai.com" method="POST">
-                <input type="hidden" name="_next" value="https://www.guildofai.com/thank-you.html">
-                <input type="hidden" name="_subject" value="New contact from Guild of AI website">
+            <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="59969e3d-1ba5-4f3f-af6e-54d6a5e64788">
+                <input type="hidden" name="redirect" value="https://www.guildofai.com/thank-you.html">
+                <input type="hidden" name="subject" value="New contact from Guild of AI website">
+                <input type="checkbox" name="botcheck" class="hidden" style="display:none">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name">Name</label>
